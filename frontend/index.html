@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aion</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0f0f14;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* CABEÇALHO */
+
+        .header {
+            height: 70px;
+            background: #17171f;
+            border-bottom: 1px solid #292936;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 18px;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+
+            border-radius: 50%;
+
+            background: linear-gradient(135deg, #9b5cff, #e66cff);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .header-info {
+            flex: 1;
+        }
+
+        .header-name {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .status {
+            font-size: 12px;
+            color: #8d8d9c;
+            margin-top: 3px;
+        }
+
+        .online {
+            color: #72e6a5;
+        }
+
+        /* CHAT */
+
+        .chat {
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 20px;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 75%;
+
+            padding: 12px 15px;
+
+            border-radius: 17px;
+
+            line-height: 1.45;
+
+            font-size: 15px;
+
+            word-wrap: break-word;
+        }
+
+        .ai {
+            align-self: flex-start;
+
+            background: #20202a;
+
+            border-bottom-left-radius: 5px;
+        }
+
+        .user {
+            align-self: flex-end;
+
+            background: #7447d9;
+
+            border-bottom-right-radius: 5px;
+        }
+
+        .time {
+            display: block;
+
+            font-size: 10px;
+
+            opacity: 0.55;
+
+            margin-top: 5px;
+
+            text-align: right;
+        }
+
+        /* ÁREA DE DIGITAÇÃO */
+
+        .input-area {
+            min-height: 75px;
+
+            background: #17171f;
+
+            border-top: 1px solid #292936;
+
+            padding: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        #messageInput {
+            flex: 1;
+
+            background: #24242f;
+
+            border: none;
+
+            outline: none;
+
+            color: white;
+
+            padding: 14px 17px;
+
+            border-radius: 25px;
+
+            font-size: 15px;
+        }
+
+        #messageInput::placeholder {
+            color: #888895;
+        }
+
+        #sendButton {
+            width: 48px;
+            height: 48px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #7447d9;
+
+            color: white;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        #sendButton:hover {
+            transform: scale(1.05);
+        }
+
+        #sendButton:disabled {
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+        /* DIGITANDO */
+
+        .typing {
+            align-self: flex-start;
+
+            background: #20202a;
+
+            padding: 12px 16px;
+
+            border-radius: 17px;
+
+            display: none;
+        }
+
+        .dots {
+            display: flex;
+
+            gap: 4px;
+        }
+
+        .dots span {
+            width: 6px;
+            height: 6px;
+
+            background: #aaa;
+
+            border-radius: 50%;
+
+            animation: typing 1.2s infinite;
+        }
+
+        .dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+
+            30% {
+                transform: translateY(-4px);
+                opacity: 1;
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .header {
+                height: 64px;
+            }
+
+            .chat {
+                padding: 14px;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+
+            .input-area {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- CABEÇALHO -->
+
+    <header class="header">
+
+        <div class="avatar">
+            A
+        </div>
+
+        <div class="header-info">
+
+            <div class="header-name">
+                Aion
+            </div>
+
+            <div class="status">
+                <span class="online">●</span>
+                online
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CHAT -->
+
+    <main class="chat" id="chat">
+
+        <div class="message ai">
+
+            Olá! Eu sou a Aion. 💜
+
+            <span class="time">
+                agora
+            </span>
+
+        </div>
+
+    </main>
+
+
+    <!-- DIGITANDO -->
+
+    <div class="typing" id="typing">
+
+        <div class="dots">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+    </div>
+
+
+    <!-- INPUT -->
+
+    <footer class="input-area">
+
+        <input
+            id="messageInput"
+            type="text"
+            placeholder="Mensagem..."
+            autocomplete="off"
+        >
+
+        <button id="sendButton">
+            ➤
+        </button>
+
+    </footer>
+
+</div>
+
+
+<script>
+
+    const chat = document.getElementById("chat");
+
+    const input = document.getElementById("messageInput");
+
+    const sendButton = document.getElementById("sendButton");
+
+    const typing = document.getElementById("typing");
+
+
+    function getTime() {
+
+        const now = new Date();
+
+        return now.toLocaleTimeString(
+            "pt-BR",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    }
+
+
+    function addMessage(text, type) {
+
+        const message = document.createElement("div");
+
+        message.classList.add("message", type);
+
+        message.innerHTML = `
+
+            ${escapeHTML(text)}
+
+            <span class="time">
+                ${getTime()}
+            </span>
+
+        `;
+
+        chat.appendChild(message);
+
+        chat.scrollTop = chat.scrollHeight;
+
+    }
+
+
+    function escapeHTML(text) {
+
+        const div = document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+
+    }
+
+
+    async function sendMessage() {
+
+        const message = input.value.trim();
+
+        if (!message) {
+            return;
+        }
+
+
+        addMessage(message, "user");
+
+        input.value = "";
+
+        sendButton.disabled = true;
+
+        typing.style.display = "block";
+
+        chat.scrollTop = chat.scrollHeight;
+
+
+        try {
+
+            const response = await fetch(
+                "http://127.0.0.1:8000/chat",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        message: message
+                    })
+
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            typing.style.display = "none";
+
+
+            if (data.reply) {
+
+                addMessage(
+                    data.reply,
+                    "ai"
+                );
+
+            } else {
+
+                addMessage(
+                    "Erro: " + (data.error || "A Aion não conseguiu responder."),
+                    "ai"
+                );
+
+            }
+
+        }
+
+        catch (error) {
+
+            typing.style.display = "none";
+
+            addMessage(
+                "Não consegui conectar ao servidor da Aion. Verifique se o backend está funcionando.",
+                "ai"
+            );
+
+            console.error(error);
+
+        }
+
+
+        sendButton.disabled = false;
+
+        input.focus();
+
+    }
+
+
+    sendButton.addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+    input.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+
+    input.focus();
+
+</script>
+
+</body>
+</html>
