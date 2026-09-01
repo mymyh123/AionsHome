@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from groq import Groq
+import uvicorn
 
 load_dotenv()
 
@@ -68,3 +69,13 @@ def chat(request: ChatRequest):
             "error": "Erro na Groq",
             "details": str(e)
         }
+
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", "8000"))
+
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=port
+    )
