@@ -15,6 +15,9 @@ jobs:
       - name: Install Velixir CLI
         run: |
           curl -fsSL https://velixir.net/install.sh | sh
+          echo "$HOME/.velixir/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.velixir/bin:$PATH"
+          velixir --version
 
       - name: Deploy
         run: velixir deploy --prod --app 3ad5283b-0d07-424c-851c-04257424aa25
