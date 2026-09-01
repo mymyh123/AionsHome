@@ -1,4 +1,3 @@
-
 name: Deploy to Velixir
 
 on:
@@ -17,8 +16,13 @@ jobs:
         run: |
           curl -fsSL https://velixir.net/install.sh | sh
           echo "$HOME/.velixir/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.velixir/bin:$PATH"
+          velixir --version
+
+      - name: Login to Velixir
+        run: velixir login --token="$VELIXIR_API_KEY"
+        env:
+          VELIXIR_API_KEY: ${{ secrets.VELIXIR_API_KEY }}
 
       - name: Deploy
         run: velixir deploy --prod --app 3ad5283b-0d07-424c-851c-04257424aa25
-        env:
-          VELIXIR_TOKEN: ${{ secrets.VELIXIR_API_KEY }}
