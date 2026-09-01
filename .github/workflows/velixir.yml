@@ -9,6 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: backend
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,7 +24,7 @@ jobs:
           export PATH="$HOME/.velixir/bin:$PATH"
           velixir --version
 
-      - name: Login and Deploy to Velixir
+      - name: Login and Deploy
         env:
           VELIXIR_API_KEY: ${{ secrets.VELIXIR_API_KEY }}
         run: |
