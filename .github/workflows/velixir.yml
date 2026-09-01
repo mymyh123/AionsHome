@@ -2,7 +2,8 @@ name: Deploy to Velixir
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   deploy:
@@ -19,10 +20,9 @@ jobs:
           export PATH="$HOME/.velixir/bin:$PATH"
           velixir --version
 
-      - name: Login to Velixir
-        run: velixir login --token="$VELIXIR_API_KEY"
+      - name: Login and Deploy to Velixir
         env:
           VELIXIR_API_KEY: ${{ secrets.VELIXIR_API_KEY }}
-
-      - name: Deploy
-        run: velixir deploy --prod --app 3ad5283b-0d07-424c-851c-04257424aa25
+        run: |
+          velixir login --token="$VELIXIR_API_KEY"
+          velixir deploy --prod --app 3ad5283b-0d07-424c-851c-04257424aa25
