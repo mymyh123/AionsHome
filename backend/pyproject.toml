@@ -1,0 +1,11 @@
+[project]
+name = "aion"
+version = "0.1.0"
+description = "Aion AI Assistant"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "python-dotenv",
+    "groq"
+]
