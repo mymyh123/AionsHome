@@ -1,3 +1,4 @@
+
 import os
 
 from fastapi import FastAPI
@@ -67,9 +68,3 @@ def chat(request: ChatRequest):
             "error": "Erro na Groq",
             "details": str(e)
         }
-import os
-
-from fastapi import FastAPI
-from pydantic import BaseModel
-from dotenv import load_dotenv
-from groq import Groq
